@@ -1,17 +1,10 @@
 from selenium import webdriver
-import yaml
 
-def create_driver():
-    with open("config/settings.yaml", "r") as f:
-        config = yaml.safe_load(f)
-
-    browser = config.get("browser", "chrome")
-    headless = config.get("headless", False)
-
+def create_driver(headless=True):
     options = webdriver.ChromeOptions()
     if headless:
         options.add_argument("--headless")
-
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1920,1080")
     driver = webdriver.Chrome(options=options)
-    driver.implicitly_wait(config.get("implicit_wait", 5))
     return driver
