@@ -1,18 +1,17 @@
-from utils.driver_factory import create_driver
-from utils.logger import setup_logger
+import pytest
+from selenium import webdriver
+from webapp.pages.login_page import LoginPage
 
-def test_successful_login():
-    logger = setup_logger("login_test")
-    driver = create_driver()
-    logger.info("Открытие сайта")
-    driver.get("https://www.saucedemo.com")
-
-    logger.info("Ввод логина и пароля")
-    driver.find_element("id", "user-name").send_keys("standard_user")
-    driver.find_element("id", "password").send_keys("secret_sauce")
-    driver.find_element("id", "login-button").click()
-
-    logger.info("Проверка, что вошли в систему")
-    assert "inventory" in driver.current_url
-
+@pytest.fixture
+def driver():
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
+    driver = webdriver.Chrome(options=options)
+    yield driver
     driver.quit()
+
+def test_login(driver):
+    page = LoginPage(driver)
+    page.load("https://example.com/login")  # заменить на нужный URL
+    page.login("demo_user", "demo_pass")
+    assert "dashboard" in driver.current_url  # пример проверки
