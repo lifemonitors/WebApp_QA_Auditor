@@ -1,20 +1,19 @@
+from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webdriver import WebDriver
 from webapp.locators.registration_locators import RegistrationLocators
 
 class RegistrationPage:
-    def __init__(self, driver):
+    def __init__(self, driver: WebDriver):
         self.driver = driver
-        self.locators = RegistrationLocators()
 
-    def open(self):
-        self.driver.get("https://your-webapp.com/register")
+    def enter_username(self, username):
+        self.driver.find_element(*RegistrationLocators.USERNAME_INPUT).send_keys(username)
 
-    def fill_registration_form(self, username, email, password):
-        self.driver.find_element(*self.locators.USERNAME_INPUT).send_keys(username)
-        self.driver.find_element(*self.locators.EMAIL_INPUT).send_keys(email)
-        self.driver.find_element(*self.locators.PASSWORD_INPUT).send_keys(password)
+    def enter_email(self, email):
+        self.driver.find_element(*RegistrationLocators.EMAIL_INPUT).send_keys(email)
 
-    def submit(self):
-        self.driver.find_element(*self.locators.SUBMIT_BUTTON).click()
+    def enter_password(self, password):
+        self.driver.find_element(*RegistrationLocators.PASSWORD_INPUT).send_keys(password)
 
-    def success_message_is_displayed(self):
-        return "successfully" in self.driver.page_source.lower()
+    def click_register(self):
+        self.driver.find_element(*RegistrationLocators.SUBMIT_BUTTON).click()
