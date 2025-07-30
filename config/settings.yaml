@@ -1,5 +1,4 @@
-base_url: "https://www.saucedemo.com"
+base_url: "https://your-webapp.com"
 browser: "chrome"
-headless: false
-implicit_wait: 5
-log_level: "INFO"
+headless: true
+timeout: 10
